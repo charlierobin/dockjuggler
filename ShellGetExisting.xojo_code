@@ -11,6 +11,16 @@ Inherits Shell
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Shared Function get() As XmlDocument
+		  var s as ShellGetExisting = new ShellGetExisting( SpecialFolder.Preferences.Child( "com.apple.dock.plist" ) )
+		  
+		  return new XmlDocument( s.ReadAll() )
+		  
+		  
+		End Function
+	#tag EndMethod
+
 
 	#tag ViewBehavior
 		#tag ViewProperty

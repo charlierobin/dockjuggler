@@ -11,6 +11,14 @@ Inherits Shell
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Shared Sub Execute()
+		  var s as ShellRelaunchDock = new ShellRelaunchDock()
+		  
+		  
+		End Sub
+	#tag EndMethod
+
 
 	#tag ViewBehavior
 		#tag ViewProperty

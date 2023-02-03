@@ -663,6 +663,141 @@ End
 		
 	#tag EndNote
 
+	#tag Note, Name = Untitled2
+		
+		var nodes as XmlNodeList = x.XQL( "//array" )
+		
+		var persistentApps as XmlNode = nodes.Item( 0 )
+		
+		for i as Integer = 0 to persistentApps.ChildCount - 1
+		  
+		  var e as XmlNode = persistentApps.Child( i )
+		  
+		  if e.ToString.IndexOf( "spacer-tile" ) > -1 then
+		    
+		    self.ListboxItems.AddRow( "spacer" )
+		    
+		  elseif e.ToString.IndexOf( "file-tile" ) > -1 then
+		    
+		    var re as RegEx = new RegEx()
+		    
+		    var o as RegExOptions = new RegExOptions()
+		    
+		    o.Greedy = false
+		    
+		    re.Options = o
+		    
+		    re.SearchPattern = "file://(.*)<"
+		    
+		    var match as RegExMatch = re.Search( e.ToString )
+		    
+		    if match <> nil then
+		      
+		      var result as String = match.SubExpressionString( 1 )
+		      
+		      result = result.ReplaceAll( "%20", " " )
+		      
+		      result = result.Left( result.Length() - 1 )
+		      
+		      self.ListboxItems.AddRow( result )
+		      
+		    end if
+		    
+		  end if
+		  
+		  self.ListboxItems.SelectedRowIndex = self.ListboxItems.LastAddedRowIndex
+		  
+		next
+		
+		self.Update()
+		
+		
+	#tag EndNote
+
+	#tag Note, Name = Untitled3
+		
+		var s as ShellGetExisting = new ShellGetExisting( SpecialFolder.Preferences.Child( "com.apple.dock.plist" ) )
+		
+		var r as String = s.ReadAll()
+		
+		var x as XmlDocument = new XmlDocument( r )
+		
+		var results as XmlNodeList = x.XQL( "//key[text() = 'persistent-apps']/following-sibling::array" )
+		
+		var persistentAppsArrayOfDicts as XmlNode = results.Item( 0 )
+		
+		for i as Integer = 0 to persistentAppsArrayOfDicts.ChildCount - 1
+		  
+		  var dict as XmlNode = persistentAppsArrayOfDicts.Child( i )
+		  
+		  var tileType as XmlNodeList = dict.XQL( "//key[text() = 'tile-type']/following-sibling::string[0]/text()" )
+		  
+		  System.DebugLog( i.ToString() + " " + tileType.ToString )
+		  
+		  
+		  
+		next
+		
+		
+		
+		
+	#tag EndNote
+
+	#tag Note, Name = Untitled4
+		
+		Public Sub Untitled4(dictArray as XmlNode, itemSetToAdd as String)
+		
+		  var row as Integer = self.get( itemSetToAdd )
+		  
+		  if row = -1 then raise new RuntimeException( "Item set “" + itemSetToAdd + "” not found" )
+		  
+		  var items() as String = self.ListboxDocks.RowTagAt( row )
+		  
+		  var r as Random = new Random()
+		  
+		  for each item as String in items
+		    
+		    if item.IndexOf( ".app" ) > -1 then
+		      
+		      var entry as String = kEntryTemplate
+		      
+		      var guid as Integer = r.InRange( 2000000000, 2635130196 )
+		      
+		      entry = entry.ReplaceAll( "<integer>GUID</integer>", "<integer>" + guid.ToString() + "</integer>" )
+		      
+		      entry = entry.ReplaceAll( "file://", "file://" + item.ReplaceAll( " ", "%20" ) + "/" )
+		      
+		      dictArray = dictArray + entry
+		      
+		    else
+		      
+		      if item = "spacer" then
+		        
+		        var entry as String = kSpacerTemplate
+		        
+		        var guid as Integer = r.InRange( 2000000000, 2635130196 )
+		        
+		        entry = entry.ReplaceAll( "<integer>GUID</integer>", "<integer>" + guid.ToString() + "</integer>" )
+		        
+		        dictArray = dictArray + entry
+		        
+		      else
+		        
+		        dictArray = self.Untitled( dictArray, item )
+		        
+		      end if
+		      
+		    end if
+		    
+		  next
+		  
+		  
+		End Sub
+		
+		
+		
+	#tag EndNote
+
 
 	#tag Constant, Name = kDefaultSettings, Type = String, Dynamic = False, Default = \"{\n\"docks\":[{\"name\":\"Default\"\x2C\"paths\":[]}]\n}", Scope = Private
 	#tag EndConstant
@@ -671,9 +806,6 @@ End
 	#tag EndConstant
 
 	#tag Constant, Name = kSpacerTemplate, Type = String, Dynamic = False, Default = \"<dict>\n\t<key>GUID</key>\n\t<integer>GUID</integer>\n\t<key>tile-type</key>\n\t<string>spacer-tile</string>\n</dict>\n", Scope = Private
-	#tag EndConstant
-
-	#tag Constant, Name = kTemplate, Type = String, Dynamic = False, Default = \"<\?xml version\x3D\"1.0\" encoding\x3D\"UTF-8\"\?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n<plist version\x3D\"1.0\">\n<dict>\n\t<key>autohide</key>\n\t<false/>\n\t<key>largesize</key>\n\t<real>128</real>\n\t<key>last-messagetrace-stamp</key>\n\t<real>696616261.76039302</real>\n\t<key>loc</key>\n\t<string>en_GB:GB</string>\n\t<key>magnification</key>\n\t<true/>\n\t<key>mineffect</key>\n\t<string>scale</string>\n\t<key>minimize-to-application</key>\n\t<false/>\n\t<key>mod-count</key>\n\t<integer>12237</integer>\n\t<key>orientation</key>\n\t<string>bottom</string>\n\t<key>persistent-apps</key>\n\t<array>persistent-apps</array>\n\t<key>persistent-others</key>\n\t<array/>\n\t<key>recent-apps</key>\n\t<array/>\n\t<key>region</key>\n\t<string>GB</string>\n\t<key>show-process-indicators</key>\n\t<true/>\n\t<key>show-recents</key>\n\t<false/>\n\t<key>tilesize</key>\n\t<real>35</real>\n\t<key>trash-full</key>\n\t<false/>\n\t<key>version</key>\n\t<integer>1</integer>\n\t<key>wvous-bl-corner</key>\n\t<integer>10</integer>\n\t<key>wvous-bl-modifier</key>\n\t<integer>0</integer>\n\t<key>wvous-br-corner</key>\n\t<integer>1</integer>\n\t<key>wvous-br-modifier</key>\n\t<integer>1048576</integer>\n\t<key>wvous-tl-corner</key>\n\t<integer>5</integer>\n\t<key>wvous-tl-modifier</key>\n\t<integer>0</integer>\n</dict>\n</plist>\n", Scope = Private
 	#tag EndConstant
 
 
@@ -790,6 +922,19 @@ End
 		  
 		End Function
 	#tag EndEvent
+	#tag Event
+		Sub Open()
+		  me.ColumnTypeAt( 0 ) = ListBox.CellTypes.TextField
+		  
+		  
+		End Sub
+	#tag EndEvent
+	#tag Event
+		Sub CellAction(row As Integer, column As Integer)
+		  self.Update()
+		  
+		End Sub
+	#tag EndEvent
 #tag EndEvents
 #tag Events PushButtonDuplicateDock
 	#tag Event
@@ -866,15 +1011,34 @@ End
 #tag Events PushButtonActivateDock
 	#tag Event
 		Sub Action()
+		  var x as XmlDocument = ShellGetExisting.get()
+		  
+		  var results as XmlNodeList = x.XQL( "//key[text() = 'persistent-apps']/following-sibling::array" )
+		  
+		  var a as XmlNode = results.Item( 0 )
+		  
+		  var c as Integer = a.ChildCount
+		  
+		  for i as Integer = 1 to c
+		    
+		    var n as XmlNode = a.FirstChild
+		    
+		    a.RemoveChild( n )
+		    
+		  next
+		  
 		  var dictArray as String = self.Untitled( "", self.ListboxDocks.SelectedRowValue )
 		  
-		  var newDockPrefs as String = kTemplate.ReplaceAll( "<array>persistent-apps</array>", "<array>" + dictArray + "</array>" )
+		  var newDockPrefs as String = x.ToString()
+		  
+		  newDockPrefs = newDockPrefs.ReplaceAll( "<key>persistent-apps</key><array/>", "<key>persistent-apps</key><array>" + dictArray + "</array>" )
 		  
 		  var f as FolderItem = SpecialFolder.Preferences.Child( "com.apple.dock.plist" )
 		  
 		  TextFiles.save( f, newDockPrefs )
 		  
-		  var s as ShellRelaunchDock = new ShellRelaunchDock()
+		  ShellRelaunchDock.Execute()
+		  
 		  
 		  
 		End Sub
@@ -883,49 +1047,37 @@ End
 #tag Events PushButtonImportCurrent
 	#tag Event
 		Sub Action()
-		  var s as ShellGetExisting = new ShellGetExisting( SpecialFolder.Preferences.Child( "com.apple.dock.plist" ) )
+		  self.ListboxItems.SetFocus()
 		  
-		  var r as String = s.ReadAll()
+		  var x as XmlDocument = ShellGetExisting.get()
 		  
-		  var x as XmlDocument = new XmlDocument( r )
+		  var results as XmlNodeList = x.XQL( "//key[text() = 'persistent-apps']/following-sibling::array" )
 		  
-		  var nodes as XmlNodeList = x.XQL( "//array" )
+		  var persistentAppsArrayOfDicts as XmlNode = results.Item( 0 )
 		  
-		  var persistentApps as XmlNode = nodes.Item( 0 )
-		  
-		  for i as Integer = 0 to persistentApps.ChildCount - 1
+		  for i as Integer = 0 to persistentAppsArrayOfDicts.ChildCount - 1
 		    
-		    var e as XmlNode = persistentApps.Child( i )
+		    var dict as XmlNode = persistentAppsArrayOfDicts.Child( i )
 		    
-		    if e.ToString.IndexOf( "spacer-tile" ) > -1 then
+		    var entry as XmlDocument = new XmlDocument( dict.ToString )
+		    
+		    var test as XmlNodeList = entry.XQL( "//key[text() = 'tile-type']/following-sibling::string[1]/text()" )
+		    
+		    var test2 as XmlNode = test.Item( 0 )
+		    
+		    if test2.Value = "spacer-tile" then
 		      
 		      self.ListboxItems.AddRow( "spacer" )
 		      
-		    elseif e.ToString.IndexOf( "file-tile" ) > -1 then
+		    elseif test2.Value = "file-tile" then
 		      
-		      var re as RegEx = new RegEx()
+		      var test3 as XmlNodeList = entry.XQL( "//key[text() = '_CFURLString']/following-sibling::string[1]/text()" )
 		      
-		      var o as RegExOptions = new RegExOptions()
+		      var test4 as XmlNode = test3.Item( 0 )
 		      
-		      o.Greedy = false
+		      var p as String = test4.Value.Middle( 7, test4.Value.Length() - 8 )
 		      
-		      re.Options = o
-		      
-		      re.SearchPattern = "file://(.*)<"
-		      
-		      var match as RegExMatch = re.Search( e.ToString )
-		      
-		      if match <> nil then
-		        
-		        var result as String = match.SubExpressionString( 1 )
-		        
-		        result = result.ReplaceAll( "%20", " " )
-		        
-		        result = result.Left( result.Length() - 1 )
-		        
-		        self.ListboxItems.AddRow( result )
-		        
-		      end if
+		      self.ListboxItems.AddRow( DecodeURLComponent( p, Encodings.UTF8 ) )
 		      
 		    end if
 		    
