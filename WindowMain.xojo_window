@@ -178,7 +178,7 @@ Begin Window WindowMain
       LockRight       =   True
       LockTop         =   True
       RequiresSelection=   False
-      RowSelectionType=   0
+      RowSelectionType=   1
       Scope           =   2
       TabIndex        =   3
       TabPanelIndex   =   0
@@ -992,11 +992,21 @@ End
 #tag Events PushButtonRemoveItem
 	#tag Event
 		Sub Action()
-		  if ConfirmDialog.show( "Are you sure you want to remove this item?" ) then
+		  if ConfirmDialog.show( "Are you sure you want to remove " + if ( self.ListboxItems.SelectedRowCount > 1, "these items?", "this item?" ) ) then
 		    
 		    self.ListboxItems.SetFocus()
 		    
-		    self.ListboxItems.RemoveRowAt( self.ListboxItems.SelectedRowIndex )
+		    var lastIndex as Integer = self.ListboxItems.LastRowIndex
+		    
+		    for i as Integer = lastIndex downTo 0
+		      
+		      if self.ListboxItems.Selected( i ) then
+		        
+		        self.ListboxItems.RemoveRowAt( i )
+		        
+		      end if
+		      
+		    next
 		    
 		    self.ListboxItems.SelectedRowIndex = -1
 		    
