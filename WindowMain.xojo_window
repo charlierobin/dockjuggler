@@ -1021,6 +1021,8 @@ End
 #tag Events PushButtonActivateDock
 	#tag Event
 		Sub Action()
+		  App.launchFinderAnimation()
+		  
 		  var x as XmlDocument = ShellGetExisting.get()
 		  
 		  var results as XmlNodeList = x.XQL( "//key[text() = 'persistent-apps']/following-sibling::array" )
@@ -1047,7 +1049,7 @@ End
 		  
 		  TextFiles.save( f, newDockPrefs )
 		  
-		  ShellRelaunchDock.Execute()
+		  // ShellRelaunchDock.Execute()
 		  
 		  
 		  

@@ -423,4 +423,12 @@ End
 		Type="Boolean"
 		EditorType=""
 	#tag EndViewProperty
+	#tag ViewProperty
+		Name="picked"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="String"
+		EditorType="MultiLineEditor"
+	#tag EndViewProperty
 #tag EndViewBehavior

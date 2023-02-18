@@ -36,6 +36,28 @@ Inherits Application
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Sub killFinderAnimation()
+		  me.timer = nil
+		  
+		  ShellRelaunchDock.Execute()
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub launchFinderAnimation()
+		  me.timer = new ClassTimer()
+		  
+		  
+		End Sub
+	#tag EndMethod
+
+
+	#tag Property, Flags = &h21
+		Private timer As ClassTimer
+	#tag EndProperty
+
 
 	#tag Constant, Name = kEditClear, Type = String, Dynamic = False, Default = \"&Delete", Scope = Public
 		#Tag Instance, Platform = Windows, Language = Default, Definition  = \"&Delete"
