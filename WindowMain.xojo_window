@@ -1021,7 +1021,7 @@ End
 #tag Events PushButtonActivateDock
 	#tag Event
 		Sub Action()
-		  App.launchFinderAnimation()
+		  // App.launchFinderAnimation()
 		  
 		  var x as XmlDocument = ShellGetExisting.get()
 		  
@@ -1049,7 +1049,7 @@ End
 		  
 		  TextFiles.save( f, newDockPrefs )
 		  
-		  // ShellRelaunchDock.Execute()
+		  ShellRelaunchDock.Execute()
 		  
 		  
 		  
