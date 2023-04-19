@@ -1,8 +1,8 @@
 # DockJuggler
  
-A simple utility for switching between various Docks in the macos Finder.
+A simple utility for switching between various Docks in the macOS Finder.
 
-As with most of my stuff, it came about because there wasn’t anything else which quite did what I wanted. When that’s the situation, you can either sit around moaning about it or start doing something about it yourself…
+As with most of my stuff, it came about because there wasn’t anything else which quite did what I wanted. This was my solution…
 
 <img width="821" alt="base" src="https://user-images.githubusercontent.com/10506323/232986208-539f1935-0658-41b9-826f-ac0fb69891ba.png">
 
@@ -14,7 +14,7 @@ My Dock had got to the point where there was way too many apps on it. I wanted t
 
 The only little extras that I wanted was support for spaces in the Dock, and some way of incorporating a “base” set of Dock apps into any other Docks, so that a change to that base set would be reflected in any other Docks that incorporated it.
 
-So this little utility was the end result of all that.
+This little utility was the end result of all that.
 
 It’s very basic, and no doubt could do with a little tidying up here and there, but it works for me.
 
@@ -24,11 +24,13 @@ All your work is stored in a single preferences/config file:
 
 `…/Users/YourUserName/Library/Preferences/com.charlierobin.dockjuggler.json`
 
-There’s also a standard `com.charlierobin.dockjuggler.plist` and `…/Library/Saved Application State/com.charlierobin.dockjuggler.savedState` created by macos, but they aren’t that import. The JSON file contains all your hard work.
+There’s also a standard `com.charlierobin.dockjuggler.plist` and `…/Library/Saved Application State/com.charlierobin.dockjuggler.savedState` created by macos, but they aren’t that important.
+
+**The JSON file contains all your hard work**.
 
 Switching between different configuartions is as simple as selecting the Dock you want from the list on the left, and then clicking the `Activate` button.
 
-I did think that perhaps that could be streamlined into a pop up menu from the DockJuggler icon, or a Finder widget-style menu in the top right of the menu bar, so perhaps that’s an area for future improvement.
+I did think that perhaps that part could be streamlined into a pop up menu from the DockJuggler icon, or a Finder widget-style menu in the top right of the menu bar, so perhaps that’s an area for future improvement.
 
 Be warned, the app does work by overwriting Apple’s existing Dock preferences file, and then relaucnhing the Dock (via a shell command).
 
@@ -46,15 +48,12 @@ You can start configuring a new Dock by importing the existing one.
 
 The app uses the existing Dock settings file as the basis for the new one, so all your existing position, size and magnification settings will be preserved.
 
-All of this works on my Mac, which is still running Catalina (10.15.7), so I’ve got no idea how it behaves on the newer versions of macos.
+All of this works on my Mac, which is still running Catalina (10.15.7), so I’ve got no idea how it behaves on the newer versions of macOS.
 
 One small defect I’ve noticed during day-to-day use is that the Dock doesn’t always update on the first click of the `Activate` button: it often takes another click, perhaps even a third.
 
-I’m not sure exactly what’s going on there, and I’ve always meant to have a closer look at it, but on the other hand I’ve just got used to the multiple clicks, and it doesn’t hugely diminish how useful I find the app in day-to-day life.
+I’m not sure exactly what’s going on there, and I’ve always meant to have a closer look at it, but on the other hand I’ve just got used to the multiple clicks, and it doesn’t hugely diminish how useful I find the app in day-to-day life, so it’s not a priority on the list of things to be attended to.
 
-The source code for the app contains frames and code for a Dock icon animation that is supposed to play whenever an activation is under way, but it played so slowly that I commented it all out.
+The source code for the app contains frames and code for a Finder Dock icon animation that was supposed to play whenever an activation is under way, but it played so slowly that I commented it all out.
 
-
-
-
-
+I’m sure in the past I’ve done app icon animations in the Dock that played at decent speeds, so I’m not quite sure what I’ve got wrong here. Probably something simple that I’ve overlooked.
