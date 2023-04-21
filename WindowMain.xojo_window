@@ -1049,7 +1049,9 @@ End
 		  
 		  TextFiles.save( f, newDockPrefs )
 		  
-		  ShellRelaunchDock.Execute()
+		  Timer.CallLater( 1000, AddressOf ShellRelaunchDock.Execute )
+		  
+		  
 		  
 		  
 		  
