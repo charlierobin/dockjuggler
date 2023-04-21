@@ -10,6 +10,29 @@ Inherits Application
 	#tag EndEvent
 
 
+	#tag MenuHandler
+		Function RevealDockJugglerPrefs() As Boolean Handles RevealDockJugglerPrefs.Action
+			var f as FolderItem = self.getSettingsFile()
+			
+			self.showInFinder( f )
+			
+			return true
+			
+		End Function
+	#tag EndMenuHandler
+
+	#tag MenuHandler
+		Function RevealDockPreferences() As Boolean Handles RevealDockPreferences.Action
+			var f as FolderItem = SpecialFolder.Preferences.Child( "com.apple.dock.plist" )
+			
+			self.showInFinder( f )
+			
+			return true
+			
+		End Function
+	#tag EndMenuHandler
+
+
 	#tag Method, Flags = &h21
 		Private Function getMainBundleIdentifier() As String
 		  const AppKit = "AppKit"
@@ -48,6 +71,22 @@ Inherits Application
 	#tag Method, Flags = &h0
 		Sub launchFinderAnimation()
 		  me.timer = new ClassTimer()
+		  
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub showInFinder(f as FolderItem)
+		  declare function objc_getClass lib "libobjc.dylib" ( name As CString ) as Ptr
+		  
+		  declare function sharedWorkspace lib "AppKit" selector "sharedWorkspace" ( obj as Ptr ) as Ptr
+		  
+		  declare function selectFile lib "AppKit" selector "selectFile:inFileViewerRootedAtPath:" ( obj As ptr, fPath as CFStringRef, rootFullPath as CFStringRef ) as Boolean
+		  
+		  var workspace as Ptr = sharedWorkspace( objc_getClass( "NSWorkspace" ) )
+		  
+		  var result as Boolean = selectFile( workspace, f.Nativepath, "" )
 		  
 		  
 		End Sub

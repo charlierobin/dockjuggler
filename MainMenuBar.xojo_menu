@@ -17,6 +17,25 @@ Begin Menu MainMenuBar
          AutoEnable = True
          Visible = True
       End
+      Begin MenuItem RevealDockPreferences
+         SpecialMenu = 0
+         Index = -2147483648
+         Text = "Reveal Dock preferences file in Finder"
+         ShortcutKey = "R"
+         Shortcut = "Cmd+R"
+         MenuModifier = True
+         AutoEnabled = True
+         AutoEnable = True
+         Visible = True
+      End
+      Begin MenuItem RevealDockJugglerPrefs
+         SpecialMenu = 0
+         Index = -2147483648
+         Text = "Reveal DockJuggler file in Finder"
+         AutoEnabled = True
+         AutoEnable = True
+         Visible = True
+      End
    End
    Begin MenuItem EditMenu
       SpecialMenu = 0

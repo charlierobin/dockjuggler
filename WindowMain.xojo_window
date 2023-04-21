@@ -450,6 +450,8 @@ End
 		  
 		  json.Value( "docks" ) = docks
 		  
+		  json.Value( "lastActivated" ) = self.lastActivated
+		  
 		  JSONFiles.save( App.getSettingsFile(), json )
 		  
 		  return false
@@ -491,8 +493,17 @@ End
 		    
 		  next
 		  
-		  self.ListboxDocks.SelectedRowIndex = 0
+		  self.lastActivated = json.Lookup( "lastActivated", "" )
 		  
+		  if self.lastActivated <> "" then
+		    
+		    self.highlightDock( self.lastActivated )
+		    
+		  else
+		    
+		    self.ListboxDocks.SelectedRowIndex = 0
+		    
+		  end if
 		  
 		  
 		End Sub
@@ -518,6 +529,23 @@ End
 		  return row
 		  
 		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub highlightDock(name as String)
+		  for i as Integer = 0 to self.ListboxDocks.LastRowIndex
+		    
+		    if self.ListboxDocks.CellValueAt( i, 0 ) = name then
+		      
+		      self.ListboxDocks.SelectedRowIndex = i
+		      
+		      exit
+		      
+		    end if
+		    
+		  next
+		  
+		End Sub
 	#tag EndMethod
 
 	#tag Method, Flags = &h21
@@ -799,7 +827,12 @@ End
 	#tag EndNote
 
 
-	#tag Constant, Name = kDefaultSettings, Type = String, Dynamic = False, Default = \"{\n\"docks\":[{\"name\":\"Default\"\x2C\"paths\":[]}]\n}", Scope = Private
+	#tag Property, Flags = &h21
+		Private lastActivated As String
+	#tag EndProperty
+
+
+	#tag Constant, Name = kDefaultSettings, Type = String, Dynamic = False, Default = \"{\n\"docks\":[{\"name\":\"Default\"\x2C\"paths\":[]}]\x2C\n\"lastActivated\": \"\"\n}", Scope = Private
 	#tag EndConstant
 
 	#tag Constant, Name = kEntryTemplate, Type = String, Dynamic = False, Default = \"<dict>\n\t<key>GUID</key>\n\t<integer>GUID</integer>\n\t<key>tile-data</key>\n\t<dict>\n\t\t<key>file-data</key>\n\t\t<dict>\n\t\t\t<key>_CFURLString</key>\n\t\t\t<string>file://</string>\n\t\t\t<key>_CFURLStringType</key>\n\t\t\t<integer>15</integer>\n\t\t</dict>\n\t</dict>\n\t<key>tile-type</key>\n\t<string>file-tile</string>\n</dict>\n", Scope = Private
@@ -1039,7 +1072,11 @@ End
 		    
 		  next
 		  
-		  var dictArray as String = self.Untitled( "", self.ListboxDocks.SelectedRowValue )
+		  var dockName as String = self.ListboxDocks.SelectedRowValue
+		  
+		  self.lastActivated = dockName
+		  
+		  var dictArray as String = self.Untitled( "", dockName )
 		  
 		  var newDockPrefs as String = x.ToString()
 		  
@@ -1050,9 +1087,6 @@ End
 		  TextFiles.save( f, newDockPrefs )
 		  
 		  Timer.CallLater( 1000, AddressOf ShellRelaunchDock.Execute )
-		  
-		  
-		  
 		  
 		  
 		End Sub
