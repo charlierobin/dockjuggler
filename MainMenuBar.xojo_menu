@@ -36,6 +36,30 @@ Begin Menu MainMenuBar
          AutoEnable = True
          Visible = True
       End
+      Begin MenuItem UntitledSeparator
+         SpecialMenu = 0
+         Index = -2147483648
+         Text = "-"
+         AutoEnabled = True
+         AutoEnable = True
+         Visible = True
+      End
+      Begin MenuItem BackupAppleDockPreferencesFileToDocuments
+         SpecialMenu = 0
+         Index = -2147483648
+         Text = "Backup Apple’s Dock preferences file to your Documents"
+         AutoEnabled = True
+         AutoEnable = True
+         Visible = True
+      End
+      Begin ApplicationMenuItem AboutDockJuggler
+         SpecialMenu = 0
+         Index = -2147483648
+         Text = "About DockJuggler"
+         AutoEnabled = True
+         AutoEnable = True
+         Visible = True
+      End
    End
    Begin MenuItem EditMenu
       SpecialMenu = 0

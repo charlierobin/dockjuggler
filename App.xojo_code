@@ -3,7 +3,19 @@ Protected Class App
 Inherits Application
 	#tag Event
 		Sub Open()
-		  var w as WindowMain = new WindowMain()
+		  var f as FolderItem = me.getSettingsFile()
+		  
+		  if not f.Exists then
+		    
+		    var w as WindowFirstRun = new WindowFirstRun()
+		    
+		    #pragma unused w
+		    
+		  else
+		    
+		    me.openMainWindow()
+		    
+		  end if
 		  
 		  
 		End Sub
@@ -11,27 +23,178 @@ Inherits Application
 
 
 	#tag MenuHandler
+		Function AboutDockJuggler() As Boolean Handles AboutDockJuggler.Action
+		  var w as WindowAbout = me.getAboutWindow()
+		  
+		  if w is nil then
+		    
+		    w = new WindowAbout()
+		    
+		  else
+		    
+		    w.Show()
+		    
+		  end if
+		  
+		  return true
+		  
+		End Function
+	#tag EndMenuHandler
+
+	#tag MenuHandler
+		Function BackupAppleDockPreferencesFileToDocuments() As Boolean Handles BackupAppleDockPreferencesFileToDocuments.Action
+		  me.backUpDockPreferences()
+		  
+		  return true
+		  
+		End Function
+	#tag EndMenuHandler
+
+	#tag MenuHandler
 		Function RevealDockJugglerPrefs() As Boolean Handles RevealDockJugglerPrefs.Action
-			var f as FolderItem = self.getSettingsFile()
-			
-			self.showInFinder( f )
-			
-			return true
-			
+		  var f as FolderItem = me.getSettingsFile()
+		  
+		  if not f.Exists then
+		    
+		    MessageBox( "DockJuggler preferences (" + f.Name + ") not found" )
+		    
+		  else
+		    
+		    me.showInFinder( f )
+		    
+		  end if
+		  
+		  return true
+		  
 		End Function
 	#tag EndMenuHandler
 
 	#tag MenuHandler
 		Function RevealDockPreferences() As Boolean Handles RevealDockPreferences.Action
-			var f as FolderItem = SpecialFolder.Preferences.Child( "com.apple.dock.plist" )
-			
-			self.showInFinder( f )
-			
-			return true
-			
+		  var f as FolderItem = me.getDockPrefsFile()
+		  
+		  me.showInFinder( f )
+		  
+		  return true
+		  
 		End Function
 	#tag EndMenuHandler
 
+
+	#tag Method, Flags = &h0
+		Sub backUpDockPreferences()
+		  var f as FolderItem = me.getDockPrefsFile()
+		  
+		  var backupName as String = f.Name + "." + me.SQLDateTimeNowForFileName() + ".backup"
+		  
+		  f.CopyTo( me.getBackUpLocationFolderItem().Child( backupName ) )
+		  
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub backUpDockPreferences1()
+		  // var f as FolderItem = me.getDockPrefsFile()
+		  
+		  var regex as RegEx = new RegEx()
+		  
+		  regex.SearchPattern = "(.+)+\.(.+)"
+		  
+		  var name as String = "htaccess"
+		  
+		  var match as RegExMatch = regex.Search( name )
+		  
+		  var filenameIncExtension as String = ""
+		  var filenameExcExtension as String = ""
+		  var extension as String = ""
+		  
+		  if match <> nil then
+		    
+		    filenameIncExtension = match.SubExpressionString( 0 )
+		    filenameExcExtension = match.SubExpressionString( 1 )
+		    extension = match.SubExpressionString( 2 )
+		    
+		  end if
+		  
+		  
+		  System.DebugLog( "filenameIncExtension: " + filenameIncExtension )
+		  System.DebugLog( "filenameExcExtension: " + filenameExcExtension )
+		  System.DebugLog( "extension: " + extension )
+		  
+		  
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub backUpDockPreferences2()
+		  var name as String = ".ht.access."
+		  
+		  var bits() as String = name.Split( "." )
+		  
+		  var filenameIncExtension as String = String.FromArray( bits, "." )
+		  var filenameExcExtension as String = ""
+		  var extension as String = ""
+		  
+		  for i as Integer = 0 to bits.LastIndex
+		    
+		    if i = bits.LastIndex then
+		      
+		      extension = bits( i )
+		      
+		    else
+		      
+		      filenameExcExtension = filenameExcExtension + bits( i ) + "."
+		      
+		    end if
+		    
+		  next
+		  
+		  filenameExcExtension = filenameExcExtension.TrimRight( "." )
+		  
+		  System.DebugLog( "filenameIncExtension: " + filenameIncExtension )
+		  System.DebugLog( "filenameExcExtension: " + filenameExcExtension )
+		  System.DebugLog( "extension: " + extension )
+		  
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function getAboutWindow() As WindowAbout
+		  for i as Integer = 0 to App.WindowCount() - 1
+		    
+		    if App.Window( i ) isA WindowAbout then
+		      
+		      return WindowAbout( App.Window( i ) )
+		      
+		    end if
+		    
+		  next
+		  
+		  return nil
+		  
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function getBackUpLocationFolderItem() As FolderItem
+		  return SpecialFolder.Desktop
+		  
+		  
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function getDockPrefsFile() As FolderItem
+		  return SpecialFolder.Preferences.Child( "com.apple.dock.plist" )
+		  
+		  
+		End Function
+	#tag EndMethod
 
 	#tag Method, Flags = &h21
 		Private Function getMainBundleIdentifier() As String
@@ -53,7 +216,10 @@ Inherits Application
 
 	#tag Method, Flags = &h0
 		Function getSettingsFile() As FolderItem
-		  return SpecialFolder.Preferences.Child( me.getMainBundleIdentifier() + ".json" )
+		  var f as FolderItem = SpecialFolder.Preferences.Child( me.getMainBundleIdentifier() + ".json" )
+		  
+		  return f
+		  
 		  
 		  
 		End Function
@@ -76,6 +242,16 @@ Inherits Application
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Sub openMainWindow()
+		  var w as WindowMain = new WindowMain()
+		  
+		  #pragma unused w
+		  
+		  
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Sub showInFinder(f as FolderItem)
 		  declare function objc_getClass lib "libobjc.dylib" ( name As CString ) as Ptr
@@ -88,8 +264,15 @@ Inherits Application
 		  
 		  var result as Boolean = selectFile( workspace, f.Nativepath, "" )
 		  
+		  #pragma unused result
 		  
 		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Function SQLDateTimeNowForFileName() As String
+		  return DateTime.Now().SQLDateTime.ReplaceAll( ":", "." )
+		End Function
 	#tag EndMethod
 
 

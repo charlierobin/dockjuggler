@@ -422,6 +422,8 @@ End
 #tag WindowCode
 	#tag Event
 		Function CancelClose(appQuitting as Boolean) As Boolean
+		  #pragma unused appQuitting
+		  
 		  var docks as JSONItem = JSONUtilities.emptyArray()
 		  
 		  for each row as ListboxRow in self.ListboxDocks.Rows()
@@ -951,7 +953,12 @@ End
 	#tag EndEvent
 	#tag Event
 		Function DragReorderRows(newPosition as Integer, parentRow as Integer) As Boolean
+		  #pragma unused newPosition
+		  #pragma unused parentRow
+		  
 		  Timer.CallLater( 100, WeakAddressOf self.Update )
+		  
+		  return false
 		  
 		End Function
 	#tag EndEvent
@@ -964,6 +971,9 @@ End
 	#tag EndEvent
 	#tag Event
 		Sub CellAction(row As Integer, column As Integer)
+		  #pragma unused row
+		  #pragma unused column
+		  
 		  self.Update()
 		  
 		End Sub

@@ -15,6 +15,7 @@ Inherits Shell
 		Shared Sub Execute()
 		  var s as ShellRelaunchDock = new ShellRelaunchDock()
 		  
+		  #pragma unused s
 		  
 		End Sub
 	#tag EndMethod
