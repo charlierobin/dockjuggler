@@ -32,6 +32,10 @@ Begin Menu MainMenuBar
          SpecialMenu = 0
          Index = -2147483648
          Text = "Reveal DockJuggler file in Finder"
+         ShortcutKey = "R"
+         Shortcut = "Cmd+Shift+R"
+         MenuModifier = True
+         AltMenuModifier = True
          AutoEnabled = True
          AutoEnable = True
          Visible = True
