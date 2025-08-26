@@ -60,11 +60,11 @@ The source code for the app contains frames and code for a Finder Dock icon anim
 
 I’m sure in the past I’ve done app icon animations in the Dock that played at decent speeds, so I’m not quite sure what I’ve got wrong here. Probably something simple that I’ve overlooked.
 
-[Downloadable prebuilt Macintosh Universal version](https://dl.dropboxusercontent.com/s/6wpzr26v40lp7cm/DockJuggler_macOS_Universal.zip?dl=0)
+[Downloadable prebuilt Macintosh Universal version](https://www.dropbox.com/scl/fi/4w99pomxmbyietg93tc29/DockJuggler_macOS_Universal.zip?rlkey=j50lmg4ygxhufmuhbt4pyi2vw&st=jukuo84z&dl=1)
 
-[Downloadable prebuilt Macintosh Intel 64 bit version](https://dl.dropboxusercontent.com/s/4zik27qfw9pxa3i/DockJuggler_macOS_64_bit.zip?dl=0)
+[Downloadable prebuilt Macintosh Intel 64 bit version](https://www.dropbox.com/scl/fi/dzvi3u6gw8tvq4ijrnxfr/DockJuggler_macOS_64_bit.zip?rlkey=pc4dbuxstsqaqkg2cpafpibbs&st=ncful78b&dl=1)
 
-[Downloadable prebuilt Macintosh ARM 64 bit version](https://dl.dropboxusercontent.com/s/whbym3u41ecxcep/DockJuggler_macOS_ARM_64_bit.zip?dl=0)
+[Downloadable prebuilt Macintosh ARM 64 bit version](https://www.dropbox.com/scl/fi/9blwbpzl28do72sy966km/DockJuggler_macOS_ARM_64_bit.zip?rlkey=z7xlc723n6gtu7qi7xepcowst&st=odedznv3&dl=1)
 
 
 
