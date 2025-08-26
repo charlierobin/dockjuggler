@@ -869,6 +869,7 @@ End
 		    
 		    self.PushButtonImportCurrent.Enabled = true
 		    
+		    self.PushButtonAddSubDock.Enabled = true
 		    self.PushButtonAddApp.Enabled = true
 		    self.PushButtonAddSpace.Enabled = true
 		    
@@ -882,6 +883,7 @@ End
 		    
 		    self.PushButtonImportCurrent.Enabled = false
 		    
+		    self.PushButtonAddSubDock.Enabled = false
 		    self.PushButtonAddApp.Enabled = false
 		    self.PushButtonAddSpace.Enabled = false
 		    
