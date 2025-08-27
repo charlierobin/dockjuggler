@@ -66,5 +66,5 @@ I’m sure in the past I’ve done app icon animations in the Dock that played a
 
 [Downloadable prebuilt Macintosh ARM 64 bit version](https://www.dropbox.com/scl/fi/9blwbpzl28do72sy966km/DockJuggler_macOS_ARM_64_bit.zip?rlkey=z7xlc723n6gtu7qi7xepcowst&st=odedznv3&dl=1)
 
-
+[A basic User Guide & Reference Manual](DockJuggler_User_Guide.pdf)
 
